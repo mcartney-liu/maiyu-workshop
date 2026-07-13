@@ -1,8 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
-// Data storage paths
-const DATA_DIR = path.join(__dirname, '../../data');
+// On Vercel the filesystem is read-only except /tmp. Use /tmp for runtime
+// data and seed it from the bundled read-only copy under backend/data.
+const isVercel = !!process.env.VERCEL;
+const SEED_DIR = path.join(__dirname, '../../data');
+const DATA_DIR = isVercel ? path.join('/tmp', 'maiyu-workshop-data') : SEED_DIR;
 const AGENTS_FILE = path.join(DATA_DIR, 'agents.json');
 const KNOWLEDGE_FILE = path.join(DATA_DIR, 'knowledge.json');
 const PLUGINS_FILE = path.join(DATA_DIR, 'plugins.json');
@@ -10,13 +13,41 @@ const MODELS_FILE = path.join(DATA_DIR, 'models.json');
 const CONVERSATIONS_DIR = path.join(DATA_DIR, 'conversations');
 const WORKFLOW_FILE = path.join(DATA_DIR, 'workflows.json');
 
+// Recursively copy a directory (used to seed /tmp on Vercel from the
+// read-only bundled copy under backend/data).
+function copyDir(src, dest) {
+  fs.mkdirSync(dest, { recursive: true });
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const s = path.join(src, entry.name);
+    const d = path.join(dest, entry.name);
+    if (entry.isDirectory()) copyDir(s, d);
+    else fs.copyFileSync(s, d);
+  }
+}
+
 // Ensure directories and files exist
 function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+    // On Vercel, seed runtime data from the read-only bundled copy.
+    if (isVercel && fs.existsSync(SEED_DIR)) {
+      copyDir(SEED_DIR, DATA_DIR);
+    }
+  }
   if (!fs.existsSync(CONVERSATIONS_DIR)) fs.mkdirSync(CONVERSATIONS_DIR, { recursive: true });
   if (!fs.existsSync(path.join(DATA_DIR, 'uploads'))) {
     fs.mkdirSync(path.join(DATA_DIR, 'uploads'), { recursive: true });
   }
+
+  // On Vercel the seed copy already contains agents/knowledge/plugins/models,
+  // so we only need to make sure the workflow file exists.
+  if (isVercel) {
+    if (!fs.existsSync(WORKFLOW_FILE)) {
+      fs.writeFileSync(WORKFLOW_FILE, JSON.stringify({ workflows: {} }, null, 2));
+    }
+    return;
+  }
+
   if (!fs.existsSync(WORKFLOW_FILE)) {
     fs.writeFileSync(WORKFLOW_FILE, JSON.stringify({ workflows: {} }, null, 2));
   }

@@ -87,11 +87,16 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message || '服务器内部错误' });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n🌟 麦语工坊后端服务已启动`);
-  console.log(`📡 监听端口: http://localhost:${PORT}`);
-  console.log(`🔒 API认证已启用 (白名单: /api/auth, /api/health)`);
-  console.log(`💡 API文档: http://localhost:${PORT}/api/health\n`);
-});
+// Only start the HTTP server when run directly (local `node src/app.js`).
+// Inside Vercel serverless this module is required by the function entry and
+// must NOT call listen().
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n🌟 麦语工坊后端服务已启动`);
+    console.log(`📡 监听端口: http://localhost:${PORT}`);
+    console.log(`🔒 API认证已启用 (白名单: /api/auth, /api/health)`);
+    console.log(`💡 API文档: http://localhost:${PORT}/api/health\n`);
+  });
+}
 
 module.exports = app;
