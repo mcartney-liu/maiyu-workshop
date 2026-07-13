@@ -1,0 +1,359 @@
+{
+  "workflows": {
+    "825a7da8-e45d-44a9-a3dc-93917d77d1b0": {
+      "agentId": "825a7da8-e45d-44a9-a3dc-93917d77d1b0",
+      "nodes": [
+        {
+          "id": "start",
+          "type": "start",
+          "position": {
+            "x": 400,
+            "y": 20
+          },
+          "data": {
+            "label": "开始"
+          }
+        },
+        {
+          "id": "llm-gen",
+          "type": "llm",
+          "position": {
+            "x": 400,
+            "y": 120
+          },
+          "data": {
+            "label": "NL→SQL",
+            "model": "",
+            "prompt": "你是一个SQL专家。根据用户的自然语言问题，生成一条可执行的SQL查询语句。\n\n数据库表结构信息：\n{{knowledge}}\n\n用户问题：{{query}}\n\n要求：\n1. 只输出SQL语句，不要解释\n2. 使用标准SQL语法\n3. 注意表名和字段名大小写\n4. 确保SQL可以被直接执行",
+            "temperature": 0.1
+          }
+        },
+        {
+          "id": "sql-exec",
+          "type": "sqlQuery",
+          "position": {
+            "x": 400,
+            "y": 240
+          },
+          "data": {
+            "label": "执行SQL",
+            "dbType": "mysql",
+            "host": "localhost",
+            "port": 3306,
+            "user": "root",
+            "password": "",
+            "database": "",
+            "sql": "",
+            "timeout": 30
+          }
+        },
+        {
+          "id": "llm-answer",
+          "type": "llm",
+          "position": {
+            "x": 400,
+            "y": 360
+          },
+          "data": {
+            "label": "解读结果",
+            "model": "",
+            "prompt": "你是一个数据分析助手。用户的问题是：{{query}}\n\nSQL查询返回了以下结果：\n{{_result}}\n\n请用自然语言简洁地回答用户的问题。包括关键数字和洞察。",
+            "temperature": 0.5
+          }
+        },
+        {
+          "id": "reply",
+          "type": "reply",
+          "position": {
+            "x": 400,
+            "y": 480
+          },
+          "data": {
+            "label": "回复",
+            "content": "{{_result}}",
+            "format": "markdown"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1",
+          "source": "start",
+          "target": "llm-gen"
+        },
+        {
+          "id": "e2",
+          "source": "llm-gen",
+          "target": "sql-exec"
+        },
+        {
+          "id": "e3",
+          "source": "sql-exec",
+          "target": "llm-answer"
+        },
+        {
+          "id": "e4",
+          "source": "llm-answer",
+          "target": "reply"
+        }
+      ],
+      "updatedAt": "2026-06-12T08:05:00.000Z"
+    },
+    "75249f4f-a160-4b91-aa71-555412e8cea2": {
+      "agentId": "75249f4f-a160-4b91-aa71-555412e8cea2",
+      "nodes": [
+        {
+          "id": "start",
+          "type": "start",
+          "position": {
+            "x": 400,
+            "y": 20
+          },
+          "data": {
+            "label": "开始"
+          },
+          "width": 140,
+          "height": 48,
+          "selected": false,
+          "dragging": false
+        },
+        {
+          "id": "llm_1782718921820",
+          "type": "llm",
+          "position": {
+            "x": 341.7817607811003,
+            "y": 136.9232402181925
+          },
+          "data": {
+            "label": "LLM",
+            "model": "zhipu/glm-4-flash-250414",
+            "prompt": "你是一个业务数据分析助手。请根据知识库中检索到的数据回答用户的问题。\n\n知识库检索结果：\n{{knowledge}}\n\n用户问题：{{query}}\n\n要求：\n1. 根据知识库中的数据给出准确、简洁的回答\n2. 如果涉及数量统计，请明确给出数字\n3. 如果数据中没有相关信息，请如实告知",
+            "temperature": 0.7
+          },
+          "width": 185,
+          "height": 210,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 341.7817607811003,
+            "y": 136.9232402181925
+          },
+          "dragging": false
+        },
+        {
+          "id": "knowledge_1782718941387",
+          "type": "knowledge",
+          "position": {
+            "x": 549.9600650693676,
+            "y": 265.15699303014213
+          },
+          "data": {
+            "label": "知识库检索",
+            "kbId": "106da681-9819-4139-9068-3e2e36b07e40",
+            "topK": 3,
+            "threshold": 0.7,
+            "outputVar": "knowledge"
+          },
+          "width": 140,
+          "height": 69,
+          "selected": true,
+          "positionAbsolute": {
+            "x": 549.9600650693676,
+            "y": 265.15699303014213
+          },
+          "dragging": false
+        },
+        {
+          "id": "reply_1782719245338",
+          "type": "reply",
+          "position": {
+            "x": 394.7967972530877,
+            "y": 494.2868126503882
+          },
+          "data": {
+            "label": "回复",
+            "content": "{{_result}}",
+            "format": "markdown"
+          },
+          "width": 140,
+          "height": 69,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 394.7967972530877,
+            "y": 494.2868126503882
+          },
+          "dragging": false
+        }
+      ],
+      "edges": [
+        {
+          "type": "smoothstep",
+          "animated": true,
+          "style": {
+            "stroke": "#6366f1",
+            "strokeWidth": 2
+          },
+          "source": "start",
+          "sourceHandle": null,
+          "target": "knowledge_1782718941387",
+          "targetHandle": null,
+          "id": "reactflow__edge-start-knowledge_1782718941387"
+        },
+        {
+          "type": "smoothstep",
+          "animated": true,
+          "style": {
+            "stroke": "#6366f1",
+            "strokeWidth": 2
+          },
+          "source": "knowledge_1782718941387",
+          "sourceHandle": null,
+          "target": "llm_1782718921820",
+          "targetHandle": null,
+          "id": "reactflow__edge-knowledge_1782718941387-llm_1782718921820"
+        },
+        {
+          "type": "smoothstep",
+          "animated": true,
+          "style": {
+            "stroke": "#6366f1",
+            "strokeWidth": 2
+          },
+          "source": "llm_1782718921820",
+          "sourceHandle": null,
+          "target": "reply_1782719245338",
+          "targetHandle": null,
+          "id": "reactflow__edge-llm_1782718921820-reply_1782719245338"
+        }
+      ],
+      "updatedAt": "2026-06-29T09:53:29.350Z"
+    },
+    "d8ca7479-77a4-4279-8de7-0bf4b4bb6277": {
+      "agentId": "d8ca7479-77a4-4279-8de7-0bf4b4bb6277",
+      "nodes": [
+        {
+          "id": "start",
+          "type": "start",
+          "position": {
+            "x": 75.14640999805965,
+            "y": -160.35472045586846
+          },
+          "data": {
+            "label": "开始"
+          },
+          "width": 140,
+          "height": 48,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 75.14640999805965,
+            "y": -160.35472045586846
+          },
+          "dragging": false
+        },
+        {
+          "id": "llm_1782724681911",
+          "type": "llm",
+          "position": {
+            "x": 319.75672616981313,
+            "y": -152.90649613562258
+          },
+          "data": {
+            "label": "LLM",
+            "model": "zhipu/glm-4-flash-250414",
+            "prompt": "",
+            "temperature": 0.7
+          },
+          "width": 140,
+          "height": 48,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 319.75672616981313,
+            "y": -152.90649613562258
+          },
+          "dragging": false
+        },
+        {
+          "id": "knowledge_1782724694395",
+          "type": "knowledge",
+          "position": {
+            "x": 567.8577983725606,
+            "y": -129.86465138436435
+          },
+          "data": {
+            "label": "知识库检索",
+            "kbId": "",
+            "topK": 3,
+            "threshold": 0.7,
+            "outputVar": "knowledge"
+          },
+          "width": 140,
+          "height": 69,
+          "selected": true,
+          "positionAbsolute": {
+            "x": 567.8577983725606,
+            "y": -129.86465138436435
+          },
+          "dragging": false
+        },
+        {
+          "id": "reply_1782724708728",
+          "type": "reply",
+          "position": {
+            "x": 159.68389099237965,
+            "y": 125.17795880137132
+          },
+          "data": {
+            "label": "回复",
+            "content": "",
+            "format": "text"
+          },
+          "width": 140,
+          "height": 48,
+          "selected": false,
+          "dragging": false
+        }
+      ],
+      "edges": [
+        {
+          "type": "smoothstep",
+          "animated": true,
+          "style": {
+            "stroke": "#6366f1",
+            "strokeWidth": 2
+          },
+          "source": "start",
+          "sourceHandle": null,
+          "target": "llm_1782724681911",
+          "targetHandle": null,
+          "id": "reactflow__edge-start-llm_1782724681911"
+        },
+        {
+          "type": "smoothstep",
+          "animated": true,
+          "style": {
+            "stroke": "#6366f1",
+            "strokeWidth": 2
+          },
+          "source": "llm_1782724681911",
+          "sourceHandle": null,
+          "target": "knowledge_1782724694395",
+          "targetHandle": null,
+          "id": "reactflow__edge-llm_1782724681911-knowledge_1782724694395"
+        },
+        {
+          "type": "smoothstep",
+          "animated": true,
+          "style": {
+            "stroke": "#6366f1",
+            "strokeWidth": 2
+          },
+          "source": "knowledge_1782724694395",
+          "sourceHandle": null,
+          "target": "reply_1782724708728",
+          "targetHandle": null,
+          "id": "reactflow__edge-knowledge_1782724694395-reply_1782724708728"
+        }
+      ],
+      "updatedAt": "2026-06-29T09:21:58.088Z"
+    }
+  }
+}

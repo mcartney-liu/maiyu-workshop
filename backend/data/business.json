@@ -1,0 +1,12 @@
+{
+  "terms": [],
+  "dictionaries": [],
+  "samples": [],
+  "metrics": {
+    "totalMessages": 0,
+    "totalSessions": 0,
+    "totalUsers": 0,
+    "dailyMessages": [],
+    "weeklyGrowth": 0
+  }
+}

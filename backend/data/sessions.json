@@ -1,0 +1,30 @@
+{
+  "sessions": {
+    "5a16d40bbba46ca05ba79054913c0d93f8a3937563b13633e4a08b9a1c64d9a4": {
+      "userId": "deb7c02a-5ad1-46bd-94dc-3895f0ceeb6e",
+      "username": "admin",
+      "role": "admin",
+      "createdAt": "2026-06-12T06:00:05.622Z"
+    },
+    "de7f6bb1dbdce913b987d967b5609820eee7d48f2feb10f8e7955a323bdb2421": {
+      "userId": "deb7c02a-5ad1-46bd-94dc-3895f0ceeb6e",
+      "username": "admin",
+      "role": "admin",
+      "createdAt": "2026-06-12T09:11:57.485Z"
+    },
+    "94dcfa7afae040080fd1c7b0fb6c47e653135773c13cd5aa10787b170bffa496": {
+      "userId": "deb7c02a-5ad1-46bd-94dc-3895f0ceeb6e",
+      "username": "admin",
+      "role": "admin",
+      "createdAt": "2026-06-29T07:27:17.037Z",
+      "expiresAt": 1782804437037
+    },
+    "e3b3b2b0f610dfd0d7475821a32df3271ba17b59aff86a5708f01ab47d21c6c6": {
+      "userId": "deb7c02a-5ad1-46bd-94dc-3895f0ceeb6e",
+      "username": "admin",
+      "role": "admin",
+      "createdAt": "2026-07-07T03:30:40.985Z",
+      "expiresAt": 1783481440985
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "providers": [
+    {
+      "id": "ollama",
+      "name": "Ollama",
+      "icon": "🦙",
+      "type": "ollama",
+      "baseUrl": "http://localhost:11434",
+      "apiKey": "",
+      "status": "online",
+      "models": [
+        {
+          "id": "llama3",
+          "name": "Llama3",
+          "maxTokens": 4096,
+          "contextWindow": 8192,
+          "category": "text",
+          "enabled": true
+        },
+        {
+          "id": "qwen2.5",
+          "name": "Qwen 2.5",
+          "maxTokens": 4096,
+          "contextWindow": 32768,
+          "category": "text",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-r1",
+          "name": "DeepSeek R1",
+          "maxTokens": 8192,
+          "contextWindow": 128000,
+          "category": "text",
+          "enabled": false
+        }
+      ]
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "icon": "🤖",
+      "type": "openai",
+      "baseUrl": "https://api.openai.com",
+      "apiKey": "",
+      "status": "offline",
+      "models": [
+        {
+          "id": "gpt-4o",
+          "name": "GPT-4o",
+          "maxTokens": 16384,
+          "contextWindow": 128000,
+          "category": "text",
+          "enabled": true
+        },
+        {
+          "id": "gpt-4",
+          "name": "GPT-4",
+          "maxTokens": 8192,
+          "contextWindow": 8192,
+          "category": "text",
+          "enabled": true
+        },
+        {
+          "id": "gpt-3.5-turbo",
+          "name": "GPT-3.5 Turbo",
+          "maxTokens": 4096,
+          "contextWindow": 16385,
+          "category": "text",
+          "enabled": false
+        }
+      ]
+    },
+    {
+      "id": "zhipu",
+      "name": "智谱AI",
+      "icon": "🔮",
+      "type": "openai",
+      "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+      "chatPath": "/chat/completions",
+      "apiKey": "1205d1f112d04b72a244d0fb0987f75c.TtvCiODaKVpvcFWw",
+      "status": "online",
+      "models": [
+        {
+          "id": "glm-4.7-flash",
+          "name": "GLM-4.7 Flash",
+          "maxTokens": 128000,
+          "contextWindow": 200000,
+          "category": "text",
+          "enabled": true
+        },
+        {
+          "id": "glm-4.5-flash",
+          "name": "GLM-4.5 Flash",
+          "maxTokens": 128000,
+          "contextWindow": 128000,
+          "category": "text",
+          "enabled": true
+        },
+        {
+          "id": "glm-4-flash-250414",
+          "name": "GLM-4 Flash",
+          "maxTokens": 128000,
+          "contextWindow": 128000,
+          "category": "text",
+          "enabled": true
+        },
+        {
+          "id": "glm-4.6v-flash",
+          "name": "GLM-4.6V Flash",
+          "maxTokens": 16384,
+          "contextWindow": 128000,
+          "category": "vision",
+          "enabled": true
+        },
+        {
+          "id": "glm-4.1v-thinking-flash",
+          "name": "GLM-4.1V Thinking Flash",
+          "maxTokens": 16384,
+          "contextWindow": 64000,
+          "category": "vision",
+          "enabled": true
+        },
+        {
+          "id": "glm-4v-flash",
+          "name": "GLM-4V Flash",
+          "maxTokens": 4096,
+          "contextWindow": 16000,
+          "category": "vision",
+          "enabled": true
+        },
+        {
+          "id": "cogview-3-flash",
+          "name": "CogView-3 Flash",
+          "maxTokens": 4096,
+          "contextWindow": 0,
+          "category": "image",
+          "enabled": true
+        },
+        {
+          "id": "cogvideox-flash",
+          "name": "CogVideoX Flash",
+          "maxTokens": 4096,
+          "contextWindow": 0,
+          "category": "video",
+          "enabled": true
+        }
+      ]
+    }
+  ]
+}

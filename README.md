@@ -1,0 +1,87 @@
+# 麦语工坊 (Maiyu Workshop)
+
+AI 对话平台。后端 Node.js/Express 端口 3001，前端 React + Vite。
+
+---
+
+## 快速启动
+
+双击项目根目录下的 `start.bat`，自动构建前端并启动服务。
+
+---
+
+## 环境要求
+- Node.js 18+
+
+---
+
+## 生产模式（推荐：`start.bat` 一键启动）
+
+双击项目根目录下的 `start.bat`，自动构建前端并启动服务。
+
+或者手动执行：
+
+```bash
+# 1. 安装依赖（仅首次）
+cd backend && npm install
+cd ../frontend && npm install
+
+# 2. 构建前端
+cd frontend && npm run build
+
+# 3. 启动后端
+cd ../backend && node src/app.js
+```
+
+访问 `http://localhost:3001`，登录 `admin` / `admin123`。
+
+---
+
+## 开发模式（前后端分离）
+
+**终端1 — 后端启动命令：**
+```bash
+cd C:\Users\haizhi\WorkBuddy\2026-06-12-11-13-04\maiyu-workshop\backend
+node src/app.js
+```
+后端运行在 `http://localhost:3001`
+
+**终端2 — 前端启动命令：**
+```bash
+cd C:\Users\haizhi\WorkBuddy\2026-06-12-11-13-04\maiyu-workshop\frontend
+node node_modules/vite/bin/vite.js
+```
+前端运行在 `http://localhost:3000`（API 自动代理到 3001）
+
+---
+
+## 登录账号
+
+| 字段 | 值 |
+|------|-----|
+| 用户名 | `admin` |
+| 密码 | `admin123` |
+
+---
+
+## 项目结构
+
+```
+maiyu-workshop/
+├── start.bat          # 一键启动脚本
+├── backend/
+│   ├── src/
+│   │   ├── app.js         # 入口
+│   │   ├── routes/        # API 路由
+│   │   └── utils/         # 工具函数
+│   └── data/              # JSON 数据存储
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── admin/     # 管理后台页面
+│   │   │   └── frontend/  # 用户前台页面
+│   │   ├── api/           # API 请求封装
+│   │   └── contexts/      # React Context
+│   └── dist/              # 构建产物
+└── README.md
+```

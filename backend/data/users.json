@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "id": "deb7c02a-5ad1-46bd-94dc-3895f0ceeb6e",
+      "username": "admin",
+      "displayName": "管理员",
+      "passwordHash": "0df884a6c76f01f9c71d7318f92e55f2cae7427492538976844321548932733e96ad7fd402b987db70640281b438a997b0441bd374e7de87dd6f1b30abb11775",
+      "salt": "70ae1d528de3b8b444f8f5d65e5b58c0",
+      "role": "admin",
+      "createdAt": "2026-06-12T06:00:02.927Z"
+    }
+  ]
+}

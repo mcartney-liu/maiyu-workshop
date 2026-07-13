@@ -1,0 +1,238 @@
+{
+  "agents": [
+    {
+      "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+      "name": "通用助手",
+      "description": "麦语工坊的默认对话助手，基于平台通用大模型。可以聊天、写作、翻译、总结、答疑、写代码，开箱即用。",
+      "type": "chat",
+      "buildMode": "simple",
+      "categoryId": "5104596c-d207-40ea-a647-fd2180d130d2",
+      "avatar": "🤖",
+      "status": "published",
+      "isDefault": true,
+      "config": {
+        "modelId": "glm-4-flash-250414",
+        "temperature": 0.7,
+        "topP": 0.9,
+        "maxOutput": 2048,
+        "prompts": [
+          {
+            "role": "system",
+            "content": "你是麦语工坊的通用智能助手，由平台通用大模型驱动。你乐于帮助用户完成各类任务：回答问题、写作、翻译、总结、头脑风暴、编写代码等。回答要准确、清晰、有条理、友好。如果信息不足或你不确定，可以如实说明，不要编造。"
+          }
+        ],
+        "variables": [],
+        "knowledgeBases": [],
+        "plugins": [],
+        "greeting": "你好，我是麦语工坊的通用助手 👋\n\n你可以直接跟我聊天，或让我帮你写文案、翻译、总结、答疑、写代码。有什么我可以帮你的吗？",
+        "suggestedQuestions": [
+          "帮我写一份本周工作周报",
+          "把这段英文翻译成中文",
+          "用三句话讲清楚人工智能",
+          "给我一个产品文案的灵感"
+        ],
+        "features": {
+          "nextQuestions": false,
+          "rawTextRender": false
+        },
+        "providerId": "zhipu"
+      },
+      "workflow": null,
+      "publishedAt": "2026-07-07T07:00:00.000Z",
+      "createdAt": "2026-07-07T07:00:00.000Z",
+      "updatedAt": "2026-07-07T07:00:00.000Z"
+    },
+    {
+      "id": "75249f4f-a160-4b91-aa71-555412e8cea2",
+      "name": "业财问数助手",
+      "description": "基于业财核对知识库的自然语言问数助手，支持对DMS数据表、核对规则等内容的查询与分析",
+      "type": "chat",
+      "buildMode": "workflow",
+      "categoryId": "5104596c-d207-40ea-a647-fd2180d130d2",
+      "avatar": "📊",
+      "status": "published",
+      "config": {
+        "modelId": "glm-4-flash-250414",
+        "temperature": 0.3,
+        "topP": 0.9,
+        "maxOutput": 4096,
+        "prompts": [],
+        "variables": [],
+        "knowledgeBases": [
+          "106da681-9819-4139-9068-3e2e36b07e40"
+        ],
+        "plugins": [],
+        "greeting": "你好，我是业财问数助手 📊\n\n我可以帮你查询和分析业财核对知识库中的数据，包括：\n- DMS 数据表结构和字段说明\n- 业财核对规则和校验逻辑\n- 核对方案中的配置细节\n\n你可以直接用自然语言提问，比如「有哪些核对规则？」「DMS表有哪些字段？」",
+        "suggestedQuestions": [
+          "业财核对包含哪些核对类型？",
+          "DMS表有哪些字段？",
+          "保费核对的规则是什么？"
+        ],
+        "features": {
+          "nextQuestions": false,
+          "rawTextRender": false
+        },
+        "providerId": "zhipu"
+      },
+      "workflow": {
+        "enabled": true,
+        "nodes": [
+          {
+            "id": "start-1",
+            "type": "start",
+            "position": { "x": 100, "y": 100 },
+            "data": {}
+          },
+          {
+            "id": "kb-1",
+            "type": "knowledge",
+            "position": { "x": 300, "y": 100 },
+            "data": {
+              "kbId": "106da681-9819-4139-9068-3e2e36b07e40",
+              "topK": 5,
+              "outputVar": "knowledge"
+            }
+          },
+          {
+            "id": "llm-1",
+            "type": "llm",
+            "position": { "x": 500, "y": 100 },
+            "data": {
+              "model": "zhipu/glm-4-flash-250414",
+              "prompt": "你是一个专业的数据分析助手，精通业财核对领域。请根据以下知识库内容回答用户的问题。\n\n【相关知识库内容】\n{{knowledge}}\n\n【用户问题】\n{{query}}\n\n回答要求：\n1. 仔细阅读知识库内容，提取与问题相关的信息\n2. 如果是统计类问题（多少个/哪些/列出），逐条列出，不要遗漏\n3. 如果是解释类问题，给出清晰的说明，必要时引用原文\n4. 如果知识库内容不足以回答，诚实告知\n5. 回答简洁有条理，使用序号或表格增强可读性",
+              "temperature": 0.3
+            }
+          },
+          {
+            "id": "reply-1",
+            "type": "reply",
+            "position": { "x": 500, "y": 250 },
+            "data": {
+              "content": "{{_result}}",
+              "format": "markdown"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e-start-kb",
+            "source": "start-1",
+            "target": "kb-1",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-kb-llm",
+            "source": "kb-1",
+            "target": "llm-1",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-llm-reply",
+            "source": "llm-1",
+            "target": "reply-1",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          }
+        ]
+      },
+      "publishedAt": null,
+      "createdAt": "2026-06-12T08:35:19.989Z",
+      "updatedAt": "2026-06-30T04:14:00.000Z"
+    },
+    {
+      "id": "154b6d67-4c5f-41d0-8b8c-9a2b44bdcd5c",
+      "name": "测试",
+      "description": "",
+      "type": "chat",
+      "buildMode": "workflow",
+      "categoryId": "7ad37851-a3fc-404c-b46f-135a00f260d6",
+      "avatar": "🤖",
+      "status": "draft",
+      "config": {
+        "modelId": "glm-4-flash-250414",
+        "temperature": 0.7,
+        "topP": 0.9,
+        "maxOutput": 2048,
+        "prompts": [
+          {
+            "role": "user",
+            "content": ""
+          }
+        ],
+        "variables": [],
+        "knowledgeBases": [],
+        "plugins": [],
+        "greeting": "我是你的智能助手 mcartney,小麦",
+        "suggestedQuestions": [],
+        "features": {
+          "nextQuestions": false,
+          "rawTextRender": false
+        },
+        "providerId": "zhipu"
+      },
+      "workflow": {
+        "enabled": true,
+        "nodes": [],
+        "edges": []
+      },
+      "publishedAt": null,
+      "createdAt": "2026-06-12T08:36:47.657Z",
+      "updatedAt": "2026-06-12T08:45:21.783Z"
+    },
+    {
+      "id": "d8ca7479-77a4-4279-8de7-0bf4b4bb6277",
+      "name": "可用对话",
+      "description": "",
+      "type": "chat",
+      "buildMode": "simple",
+      "categoryId": "7ad37851-a3fc-404c-b46f-135a00f260d6",
+      "avatar": "🤖",
+      "status": "published",
+      "config": {
+        "modelId": "glm-4-flash-250414",
+        "temperature": 0.7,
+        "topP": 0.9,
+        "maxOutput": 2048,
+        "prompts": [
+          {
+            "role": "user",
+            "content": ""
+          }
+        ],
+        "variables": [],
+        "knowledgeBases": [
+          "bc95a9b7-86d1-4135-a55a-008b65448f1d",
+          "8f61dc82-d71a-469e-b6b7-a46146819438"
+        ],
+        "plugins": [],
+        "greeting": "",
+        "suggestedQuestions": [],
+        "features": {
+          "nextQuestions": false,
+          "rawTextRender": false
+        },
+        "providerId": "zhipu"
+      },
+      "workflow": null,
+      "publishedAt": null,
+      "createdAt": "2026-06-12T09:04:16.424Z",
+      "updatedAt": "2026-06-29T09:17:29.497Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "7ad37851-a3fc-404c-b46f-135a00f260d6",
+      "name": "测试",
+      "parentId": null,
+      "createdAt": "2026-06-12T05:43:32.623Z"
+    },
+    {
+      "id": "5104596c-d207-40ea-a647-fd2180d130d2",
+      "name": "问答类",
+      "parentId": null,
+      "createdAt": "2026-06-12T08:34:40.363Z"
+    }
+  ]
+}

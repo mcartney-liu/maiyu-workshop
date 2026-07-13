@@ -1,0 +1,53 @@
+{
+  "conversations": [
+    {
+      "id": "96c7bb44-ed28-4a9b-a286-81b77927be7c",
+      "agentId": "154b6d67-4c5f-41d0-8b8c-9a2b44bdcd5c",
+      "title": "你能做什么",
+      "variables": {},
+      "messages": [
+        {
+          "id": "136c6325-b406-4ba7-b1a5-8e80f98477b8",
+          "role": "assistant",
+          "content": "我是你的智能助手 mcartney,小麦",
+          "createdAt": "2026-06-12T08:45:32.062Z"
+        },
+        {
+          "id": "ec5d266e-12d7-4d98-93bf-7d502d99ffea",
+          "role": "user",
+          "content": "你能做什么",
+          "createdAt": "2026-06-12T08:45:36.562Z"
+        },
+        {
+          "id": "410fed18-49fa-43ce-90d5-b95ac9b651a3",
+          "role": "assistant",
+          "content": "[工作流完成] \"\"",
+          "createdAt": "2026-06-12T08:45:36.566Z"
+        },
+        {
+          "id": "453ae7bd-15ef-4554-ac07-5885220c5c28",
+          "role": "user",
+          "content": "你好",
+          "createdAt": "2026-06-29T06:59:07.969Z"
+        },
+        {
+          "id": "3aee6b9f-bbbe-4352-888f-b9c5f37389e6",
+          "role": "assistant",
+          "content": "[工作流完成] \"\"",
+          "createdAt": "2026-06-29T06:59:07.971Z"
+        }
+      ],
+      "createdAt": "2026-06-12T08:45:32.062Z",
+      "updatedAt": "2026-06-29T06:59:07.971Z"
+    },
+    {
+      "id": "5fa0af96-2f76-4e4c-b8f2-fc25b0c05255",
+      "agentId": "154b6d67-4c5f-41d0-8b8c-9a2b44bdcd5c",
+      "title": "新对话",
+      "variables": {},
+      "messages": [],
+      "createdAt": "2026-06-12T08:43:47.638Z",
+      "updatedAt": "2026-06-12T08:43:47.638Z"
+    }
+  ]
+}
