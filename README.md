@@ -64,29 +64,6 @@ node node_modules/vite/bin/vite.js
 
 ---
 
-## 部署到 Vercel（全栈：前端静态 + 后端 Serverless）
-
-仓库已包含 `vercel.json` 与 `api/` 云函数入口，可直接从 GitHub 导入。
-
-**导入时注意（否则 Deploy 按钮会灰色不可用）：**
-
-1. 在 Vercel 导入页把 **Root Directory 改为 `.`**（英文句点 = 仓库根目录）。
-   Vercel 默认会把 `frontend/` 误识别成独立前端项目，必须手动改回根目录，否则后端云函数和 `vercel.json` 都不会生效。
-2. 展开 **Build and Output Settings**，按下面填：
-   | 设置项 | 值 |
-   |--------|-----|
-   | Framework Preset | `Other` |
-   | Build Command | `cd frontend && npm install && npm run build` |
-   | Output Directory | `frontend/dist` |
-3. 点 **Deploy**，约 1–2 分钟构建完成后会分配 `*.vercel.app` 域名。
-
-**说明：**
-- 登录账号 `admin` / `admin123`、已发布的智能体在部署后开箱可见（数据从仓库种子初始化到 `/tmp`）。
-- Vercel 文件系统只读，对话记录/上传文件存于 `/tmp`，实例冷启动后会重置（演示够用，非持久）。
-- 真实对话需配置大模型 API Key：部署后到「后台 → 模型」填入；若需冷启动不丢失，建议改为环境变量。
-
----
-
 ## 项目结构
 
 ```
