@@ -1,14 +1,44 @@
 const fs = require('fs');
 const path = require('path');
 
-// Data storage paths
-const DATA_DIR = path.join(__dirname, '../../data');
+// On Vercel the filesystem is read-only except /tmp, so we keep writable
+// data there and seed it from the bundled (read-only) repo data on first run.
+const IS_VERCEL = !!process.env.VERCEL;
+
+const DATA_DIR = IS_VERCEL
+  ? path.join('/tmp', 'maiyu-workshop-data')
+  : path.join(__dirname, '../../data');
+
+// Resolve the bundled seed directory (read-only on Vercel)
+function resolveSeedDir() {
+  const candidates = [
+    path.join(__dirname, '../../data'),        // local dev
+    path.join(__dirname, '../backend/data'),   // serverless: api/ -> backend/data
+    path.join(process.cwd(), 'backend/data')   // fallback
+  ];
+  for (const c of candidates) {
+    if (fs.existsSync(path.join(c, 'agents.json'))) return c;
+  }
+  return candidates[0];
+}
+const SEED_DIR = IS_VERCEL ? resolveSeedDir() : DATA_DIR;
+
 const AGENTS_FILE = path.join(DATA_DIR, 'agents.json');
 const KNOWLEDGE_FILE = path.join(DATA_DIR, 'knowledge.json');
 const PLUGINS_FILE = path.join(DATA_DIR, 'plugins.json');
 const MODELS_FILE = path.join(DATA_DIR, 'models.json');
 const CONVERSATIONS_DIR = path.join(DATA_DIR, 'conversations');
 const WORKFLOW_FILE = path.join(DATA_DIR, 'workflows.json');
+
+function copyDir(src, dst) {
+  fs.mkdirSync(dst, { recursive: true });
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const s = path.join(src, entry.name);
+    const d = path.join(dst, entry.name);
+    if (entry.isDirectory()) copyDir(s, d);
+    else fs.copyFileSync(s, d);
+  }
+}
 
 // Ensure directories and files exist
 function ensureDataDir() {
@@ -17,6 +47,30 @@ function ensureDataDir() {
   if (!fs.existsSync(path.join(DATA_DIR, 'uploads'))) {
     fs.mkdirSync(path.join(DATA_DIR, 'uploads'), { recursive: true });
   }
+
+  // On Vercel: seed writable /tmp from the bundled read-only repo data once.
+  if (IS_VERCEL && SEED_DIR && SEED_DIR !== DATA_DIR) {
+    const seedFiles = [
+      'agents.json', 'knowledge.json', 'plugins.json', 'models.json',
+      'workflows.json', 'users.json', 'business.json', 'sessions.json'
+    ];
+    for (const f of seedFiles) {
+      const src = path.join(SEED_DIR, f);
+      const dst = path.join(DATA_DIR, f);
+      if (fs.existsSync(src) && !fs.existsSync(dst)) {
+        try { fs.copyFileSync(src, dst); } catch (e) { /* ignore */ }
+      }
+    }
+    for (const dir of ['knowledge', 'agents', 'uploads']) {
+      const srcDir = path.join(SEED_DIR, dir);
+      const dstDir = path.join(DATA_DIR, dir);
+      if (fs.existsSync(srcDir) && !fs.existsSync(dstDir)) {
+        try { copyDir(srcDir, dstDir); } catch (e) { /* ignore */ }
+      }
+    }
+    return;
+  }
+
   if (!fs.existsSync(WORKFLOW_FILE)) {
     fs.writeFileSync(WORKFLOW_FILE, JSON.stringify({ workflows: {} }, null, 2));
   }

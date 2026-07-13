@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/[[...slug]].js": {
+      "includeFiles": [
+        "backend/src/**",
+        "backend/data/**",
+        "backend/package.json"
+      ],
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
